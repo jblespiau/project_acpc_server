@@ -197,15 +197,15 @@ Game *readGame( FILE *file )
       continue;
     } else if( !strncasecmp( line, "stack", 5 ) ) {
 
-      stackRead = readItems( "%"SCNd32, MAX_PLAYERS, &line[ 5 ],
+      stackRead = readItems( "%" SCNd32, MAX_PLAYERS, &line[ 5 ],
 				 1, game->stack, 4, &c );
     } else if( !strncasecmp( line, "blind", 5 ) ) {
 
-      blindRead = readItems( "%"SCNd32, MAX_PLAYERS, &line[ 5 ],
+      blindRead = readItems( "%" SCNd32, MAX_PLAYERS, &line[ 5 ],
 			     1, game->blind, 4, &c );
     } else if( !strncasecmp( line, "raisesize", 9 ) ) {
 
-      raiseSizeRead = readItems( "%"SCNd32, MAX_PLAYERS, &line[ 9 ],
+      raiseSizeRead = readItems( "%" SCNd32, MAX_PLAYERS, &line[ 9 ],
 				 1, game->raiseSize, 4, &c );
     } else if( !strncasecmp( line, "limit", 5 ) ) {
 
@@ -215,30 +215,30 @@ Game *readGame( FILE *file )
       game->bettingType = noLimitBetting;
     } else if( !strncasecmp( line, "numplayers", 10 ) ) {
 
-      readItems( "%"SCNu8, 1, &line[ 10 ], 1, &game->numPlayers, 1, &c );
+      readItems( "%" SCNu8, 1, &line[ 10 ], 1, &game->numPlayers, 1, &c );
     } else if( !strncasecmp( line, "numrounds", 9 ) ) {
 
-      readItems( "%"SCNu8, 1, &line[ 9 ], 1, &game->numRounds, 1, &c );
+      readItems( "%" SCNu8, 1, &line[ 9 ], 1, &game->numRounds, 1, &c );
     } else if( !strncasecmp( line, "firstplayer", 11 ) ) {
 
-      readItems( "%"SCNu8, MAX_ROUNDS, &line[ 11 ],
+      readItems( "%" SCNu8, MAX_ROUNDS, &line[ 11 ],
 		 1, game->firstPlayer, 1, &c );
     } else if( !strncasecmp( line, "maxraises", 9 ) ) {
 
-      readItems( "%"SCNu8, MAX_ROUNDS, &line[ 9 ],
+      readItems( "%" SCNu8, MAX_ROUNDS, &line[ 9 ],
 		 1, game->maxRaises, 1, &c );
     } else if( !strncasecmp( line, "numsuits", 8 ) ) {
 
-      readItems( "%"SCNu8, 1, &line[ 8 ], 1, &game->numSuits, 1, &c );
+      readItems( "%" SCNu8, 1, &line[ 8 ], 1, &game->numSuits, 1, &c );
     } else if( !strncasecmp( line, "numranks", 8 ) ) {
 
-      readItems( "%"SCNu8, 1, &line[ 8 ], 1, &game->numRanks, 1, &c );
+      readItems( "%" SCNu8, 1, &line[ 8 ], 1, &game->numRanks, 1, &c );
     } else if( !strncasecmp( line, "numholecards", 12 ) ) {
 
-      readItems( "%"SCNu8, 1, &line[ 12 ], 1, &game->numHoleCards, 1, &c );
+      readItems( "%" SCNu8, 1, &line[ 12 ], 1, &game->numHoleCards, 1, &c );
     } else if( !strncasecmp( line, "numboardcards", 13 ) ) {
 
-      boardCardsRead = readItems( "%"SCNu8, MAX_ROUNDS, &line[ 13 ],
+      boardCardsRead = readItems( "%" SCNu8, MAX_ROUNDS, &line[ 13 ],
 				  1, game->numBoardCards, 1, &c );
     }
   }
@@ -246,14 +246,14 @@ Game *readGame( FILE *file )
   /* do sanity checks */
   if( game->numRounds == 0 || game->numRounds > MAX_ROUNDS ) {
 
-    fprintf( stderr, "invalid number of rounds: %"PRIu8"\n", game->numRounds );
+    fprintf( stderr, "invalid number of rounds: %" PRIu8"\n", game->numRounds );
     free( game );
     return NULL;
   }
 
   if( game->numPlayers < 2 || game->numPlayers > MAX_PLAYERS ) {
 
-    fprintf( stderr, "invalid number of players: %"PRIu8"\n",
+    fprintf( stderr, "invalid number of players: %" PRIu8"\n",
 	     game->numPlayers );
     free( game );
     return NULL;
@@ -261,7 +261,7 @@ Game *readGame( FILE *file )
 
   if( stackRead < game->numPlayers ) {
 
-    fprintf( stderr, "only read %"PRIu8" stack sizes, need %"PRIu8"\n",
+    fprintf( stderr, "only read %" PRIu8" stack sizes, need %" PRIu8"\n",
 	    stackRead, game->numPlayers );
     free( game );
     return NULL;
@@ -269,7 +269,7 @@ Game *readGame( FILE *file )
 
   if( blindRead < game->numPlayers ) {
 
-    fprintf( stderr, "only read %"PRIu8" blinds, need %"PRIu8"\n",
+    fprintf( stderr, "only read %" PRIu8" blinds, need %" PRIu8"\n",
 	    blindRead, game->numPlayers );
     free( game );
     return NULL;
@@ -287,7 +287,7 @@ Game *readGame( FILE *file )
   if( game->bettingType == limitBetting
       && raiseSizeRead < game->numRounds ) {
 
-    fprintf( stderr, "only read %"PRIu8" raise sizes, need %"PRIu8"\n",
+    fprintf( stderr, "only read %" PRIu8" raise sizes, need %" PRIu8"\n",
 	     raiseSizeRead, game->numRounds );
     free( game );
     return NULL;
@@ -298,7 +298,7 @@ Game *readGame( FILE *file )
     if( game->firstPlayer[ c ] == 0
 	|| game->firstPlayer[ c ] > game->numPlayers ) {
 
-      fprintf( stderr, "invalid first player %"PRIu8" on round %d\n",
+      fprintf( stderr, "invalid first player %" PRIu8" on round %d\n",
 	      game->firstPlayer[ c ], c + 1 );
       free( game );
       return NULL;
@@ -309,21 +309,21 @@ Game *readGame( FILE *file )
 
   if( game->numSuits == 0 || game->numSuits > MAX_SUITS ) {
 
-    fprintf( stderr, "invalid number of suits: %"PRIu8"\n", game->numSuits );
+    fprintf( stderr, "invalid number of suits: %" PRIu8"\n", game->numSuits );
     free( game );
     return NULL;
   }
 
   if( game->numRanks == 0 || game->numRanks > MAX_RANKS ) {
 
-    fprintf( stderr, "invalid number of ranks: %"PRIu8"\n", game->numRanks );
+    fprintf( stderr, "invalid number of ranks: %" PRIu8"\n", game->numRanks );
     free( game );
     return NULL;
   }
 
   if( game->numHoleCards == 0 || game->numHoleCards > MAX_HOLE_CARDS ) {
 
-    fprintf( stderr, "invalid number of hole cards: %"PRIu8"\n",
+    fprintf( stderr, "invalid number of hole cards: %" PRIu8"\n",
 	     game->numHoleCards );
     free( game );
     return NULL;
@@ -331,7 +331,7 @@ Game *readGame( FILE *file )
 
   if( boardCardsRead < game->numRounds ) {
 
-    fprintf( stderr, "only read %"PRIu8" board card numbers, need %"PRIu8"\n",
+    fprintf( stderr, "only read %" PRIu8" board card numbers, need %" PRIu8"\n",
 	    boardCardsRead, game->numRounds );
     free( game );
     return NULL;
@@ -363,16 +363,16 @@ void printGame( FILE *file, const Game *game )
     fprintf( file, "limit\n" );
   }
 
-  fprintf( file, "numPlayers = %"PRIu8"\n", game->numPlayers );
+  fprintf( file, "numPlayers = %" PRIu8"\n", game->numPlayers );
 
-  fprintf( file, "numRounds = %"PRIu8"\n", game->numRounds );
+  fprintf( file, "numRounds = %" PRIu8"\n", game->numRounds );
 
   for( i = 0; i < game->numPlayers; ++i ) {
     if( game->stack[ i ] < INT32_MAX ) {
 
       fprintf( file, "stack =" );
       for( i = 0; i < game->numPlayers; ++i ) {
-	fprintf( file, " %"PRId32, game->stack[ i ] );
+	fprintf( file, " %" PRId32, game->stack[ i ] );
       }
       fprintf( file, "\n" );
 
@@ -382,7 +382,7 @@ void printGame( FILE *file, const Game *game )
 
   fprintf( file, "blind =" );
   for( i = 0; i < game->numPlayers; ++i ) {
-    fprintf( file, " %"PRId32, game->blind[ i ] );
+    fprintf( file, " %" PRId32, game->blind[ i ] );
   }
   fprintf( file, "\n" );
 
@@ -390,7 +390,7 @@ void printGame( FILE *file, const Game *game )
 
     fprintf( file, "raiseSize =" );
     for( i = 0; i < game->numRounds; ++i ) {
-      fprintf( file, " %"PRId32, game->raiseSize[ i ] );
+      fprintf( file, " %" PRId32, game->raiseSize[ i ] );
     }
     fprintf( file, "\n" );
   }
@@ -400,7 +400,7 @@ void printGame( FILE *file, const Game *game )
 
       fprintf( file, "firstPlayer =" );
       for( i = 0; i < game->numRounds; ++i ) {
-	fprintf( file, " %"PRIu8, game->firstPlayer[ i ] + 1 );
+	fprintf( file, " %" PRIu8, game->firstPlayer[ i ] + 1 );
       }
       fprintf( file, "\n" );
 
@@ -413,7 +413,7 @@ void printGame( FILE *file, const Game *game )
 
       fprintf( file, "maxRaises =" );
       for( i = 0; i < game->numRounds; ++i ) {
-	fprintf( file, " %"PRIu8, game->maxRaises[ i ] );
+	fprintf( file, " %" PRIu8, game->maxRaises[ i ] );
       }
       fprintf( file, "\n" );
 
@@ -421,15 +421,15 @@ void printGame( FILE *file, const Game *game )
     }
   }
 
-  fprintf( file, "numSuits = %"PRIu8"\n", game->numSuits );
+  fprintf( file, "numSuits = %" PRIu8"\n", game->numSuits );
 
-  fprintf( file, "numRanks = %"PRIu8"\n", game->numRanks );
+  fprintf( file, "numRanks = %" PRIu8"\n", game->numRanks );
 
-  fprintf( file, "numHoleCards = %"PRIu8"\n", game->numHoleCards );
+  fprintf( file, "numHoleCards = %" PRIu8"\n", game->numHoleCards );
 
   fprintf( file, "numBoardCards =" );
   for( i = 0; i < game->numRounds; ++i ) {
-    fprintf( file, " %"PRIu8, game->numBoardCards[ i ] );
+    fprintf( file, " %" PRIu8, game->numBoardCards[ i ] );
   }
   fprintf( file, "\n" );
 
@@ -1456,7 +1456,7 @@ static int readStateCommon( const char *string, const Game *game,
   c = 0;
 
   /* HEADER:handId */
-  if( sscanf( string, ":%"SCNu32"%n", &handId, &r ) < 1 ) {
+  if( sscanf( string, ":%" SCNu32"%n", &handId, &r ) < 1 ) {
     return -1;
   }
   c += r;
@@ -1519,7 +1519,7 @@ int readMatchState( const char *string, const Game *game,
   int c, r;
 
   /* HEADER = MATCHSTATE:player */
-  if( sscanf( string, "MATCHSTATE:%"SCNu8"%n",
+  if( sscanf( string, "MATCHSTATE:%" SCNu8"%n",
 	      &state->viewingPlayer, &c ) < 1
       || state->viewingPlayer >= game->numPlayers )  {
     return -1;
@@ -1544,7 +1544,7 @@ static int printStateCommon( const Game *game, const State *state,
   c = 0;
 
   /* HEADER:handId: */
-  r = snprintf( &string[ c ], maxLen - c, ":%"PRIu32":", state->handId );
+  r = snprintf( &string[ c ], maxLen - c, ":%" PRIu32":", state->handId );
   if( r < 0 ) {
     return -1;
   }
@@ -1618,7 +1618,7 @@ int printMatchState( const Game *game, const MatchState *state,
   c = 0;
 
   /* MATCHSTATE:player */
-  r = snprintf( &string[ c ], maxLen - c, "MATCHSTATE:%"PRIu8,
+  r = snprintf( &string[ c ], maxLen - c, "MATCHSTATE:%" PRIu8,
 		state->viewingPlayer );
   if( r < 0 ) {
     return -1;
@@ -1668,7 +1668,7 @@ int readAction( const char *string, const Game *game, Action *action )
   if( action->type == a_raise && game->bettingType == noLimitBetting ) {
     /* no-limit bet/raise needs to read a size */
 
-    if( sscanf( &string[ c ], "%"SCNd32"%n", &action->size, &r ) < 1 ) {
+    if( sscanf( &string[ c ], "%" SCNd32"%n", &action->size, &r ) < 1 ) {
       return -1;
     }
     c += r;
@@ -1698,7 +1698,7 @@ int printAction( const Game *game, const Action *action,
   if( game->bettingType == noLimitBetting && action->type == a_raise ) {
     /* 2010 AAAI no-limit format has a size for bet/raise */
 
-    r = snprintf( &string[ c ], maxLen - c, "%"PRId32, action->size );
+    r = snprintf( &string[ c ], maxLen - c, "%" PRId32, action->size );
     if( r < 0 ) {
       return -1;
     }
@@ -1794,3 +1794,4 @@ int printCards( const int numCards, const uint8_t *cards,
 }
 
 } // namespace project_acpc_server
+
