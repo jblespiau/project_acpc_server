@@ -169,6 +169,9 @@ Game *readGame( FILE *file )
   }
   blindRead = 0;
   raiseSizeRead = 0;
+  for( c = 0; c < MAX_ROUNDS; ++c ) {
+    game->raiseSize[ c ] = INT32_MAX;
+  }
   game->bettingType = limitBetting;
   game->numPlayers = 0;
   game->numRounds = 0;
@@ -205,7 +208,7 @@ Game *readGame( FILE *file )
 			     1, game->blind, 4, &c );
     } else if( !strncasecmp( line, "raisesize", 9 ) ) {
 
-      raiseSizeRead = readItems( "%" SCNd32, MAX_PLAYERS, &line[ 9 ],
+      raiseSizeRead = readItems( "%" SCNd32, MAX_ROUNDS, &line[ 9 ],
 				 1, game->raiseSize, 4, &c );
     } else if( !strncasecmp( line, "limit", 5 ) ) {
 
